@@ -31,7 +31,7 @@
   .bar { max-width: 1040px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between;
          padding: 8px 40px; background: rgba(255,255,255,.8); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
          border: 1px solid var(--line); border-radius: 9999px; box-shadow: 0 4px 14px rgba(32,34,36,.08); }
-  .bar .brand { font-weight: 700; font-size: 18px; letter-spacing: -.01em; padding: 6px 0; background: linear-gradient(120deg, #202124 0%, #1A73E8 58%, #8430CE 100%); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .bar .brand { font-weight: 700; font-size: 18px; letter-spacing: -.01em; padding: 6px 0; background: linear-gradient(120deg, #4C8DF6 0%, #6F7BEF 50%, #9A68E3 100%); -webkit-background-clip: text; background-clip: text; color: transparent; }
   .bar .brand:hover { text-decoration: none; }
   .bar .links a { color: var(--ink); font-size: 14px; font-weight: 500; margin-left: 28px; padding: 4px 0; }
   .bar .links a:hover { text-decoration: none; color: var(--blue-2); }
@@ -71,7 +71,7 @@
 
   /* headings */
   h1 { margin: 64px 0 16px; font-size: 36px; line-height: 1.15; font-weight: 700; letter-spacing: -.01em;
-       background: linear-gradient(120deg, #202124 0%, #1A73E8 58%, #8430CE 100%); -webkit-background-clip: text; background-clip: text; color: transparent; display: inline-block; }
+       background: linear-gradient(120deg, #4C8DF6 0%, #6F7BEF 50%, #9A68E3 100%); -webkit-background-clip: text; background-clip: text; color: transparent; display: inline-block; }
   .pills { display: flex; gap: 6px; margin-bottom: 30px; }
   .pills button { font: inherit; font-size: 13px; font-weight: 600; letter-spacing: .13px; height: 32px; padding: 0 14px; border-radius: 999px;
                   background: transparent; color: var(--ink); border: 1px solid transparent; cursor: pointer; }
@@ -147,7 +147,20 @@
   .tip b { display: block; font-weight: 600; }
   .tip span { font-size: 12px; color: #D7E3FC; }
   .tip.on { opacity: 1; }
-  @media (max-width: 720px) { .cv-k, .cv-set { display: none; } .cv-legend { font-size: 11px; gap: 10px; } }
+  @media (max-width: 720px) {
+    .cv-k, .cv-set { display: none; }
+    .cover { border-radius: 16px; }
+    .cv-title { left: 16px; top: 14px; } .cv-h { font-size: 19px; }
+    .cv-legend { left: 16px; right: 16px; bottom: 12px; flex-wrap: wrap; gap: 4px 12px; font-size: 11px; }
+    .mk .nm { font-size: 25px; } .mk .sc { font-size: 20px; } .goal { font-size: 26px; }
+    .cv-legend { display: none; }
+    .mk:not(.top):not(:focus) text { display: none; }
+    .mk:hover .nm, .mk:focus .nm { font-size: 23px; }
+    .opt { display: none; }
+    #tracks { overflow-x: auto; flex-wrap: nowrap; scrollbar-width: none; margin-left: -16px; margin-right: -16px; padding: 0 16px; }
+    #tracks button { white-space: nowrap; flex: none; }
+    .thead { flex-wrap: wrap; } .ctrl { gap: 8px 14px; }
+  }
 
   /* info rows, like the paper metadata block */
   section.info { margin-top: 72px; }
@@ -166,9 +179,11 @@
 
   @media (max-width: 1060px) { .page { grid-template-columns: minmax(0, 1fr); } .toc { display: none; } main { padding-top: 64px; } }
   @media (max-width: 720px) {
-    nav { padding: 12px 12px 0; } .bar { padding: 6px 20px; }
+    nav { padding: 12px 12px 0; }
+    .bar .links { white-space: nowrap; } .bar .links a { margin-left: 14px; } .bar .links a.submit { padding: 6px 13px; } .bar .brand { font-size: 16px; } .bar { padding: 6px 20px; }
     .bar .links a:not(.keep) { display: none; }
-    h1 { font-size: 36px; margin-top: 56px; }
+    h1 { font-size: 28px; margin-top: 44px; }
+    .protocol h3 { font-size: 19px; } .pills { margin-bottom: 18px; }
     .protocol { flex-direction: column; align-items: flex-start; padding: 22px; }
     .news { padding: 18px 20px 10px; } .news li { flex-direction: column; gap: 2px; }
     dl > div { grid-template-columns: 1fr; gap: 6px; }
@@ -336,6 +351,7 @@
 
   function drawCover() {
     const svg = $("cover"); svg.innerHTML = "";
+    svg.setAttribute("viewBox", matchMedia("(max-width: 720px)").matches ? "80 140 840 450" : "0 0 1000 600");
     const defs = el("defs", {}, svg);
     const bg = el("radialGradient", { id: "bg", cx: "50%", cy: "60%", r: "75%" }, defs);
     el("stop", { offset: "0", "stop-color": "#10233A" }, bg); el("stop", { offset: "1", "stop-color": "#050A11" }, bg);
@@ -430,7 +446,7 @@
     const tipStar = el("path", { d: sp(30), fill: "url(#star)", transform: `translate(${e.x},${e.y})` }, svg);
     el("path", { d: sp(10), fill: "#FFFFFF", opacity: .9, transform: `translate(${e.x},${e.y})` }, svg);
     if (!still) el("animateTransform", { attributeName: "transform", type: "scale", additive: "sum", values: "1;1.14;1", dur: "3.2s", repeatCount: "indefinite" }, tipStar);
-    el("text", { x: e.x, y: e.y - 30, "text-anchor": "middle", "font-size": 16, "font-weight": 600, fill: "#FFFFFF", stroke: "#050A11", "stroke-width": 4, "stroke-opacity": .85, "paint-order": "stroke" }, svg).textContent = "Dice 1.0";
+    el("text", { class: "goal", x: e.x, y: e.y - 30, "text-anchor": "middle", "font-size": 16, "font-weight": 600, fill: "#FFFFFF", stroke: "#050A11", "stroke-width": 4, "stroke-opacity": .85, "paint-order": "stroke" }, svg).textContent = "Dice 1.0";
 
     // methods: star on the climb, name and score beside it, alternating sides
     const key = S.set === "human" ? "dice" : "all";
@@ -440,7 +456,7 @@
     // labels sit right next to their star (RoboDojo style); overlaps are allowed
     items.forEach(o => { o.side = 1; o.bx = o.p.x + 13; o.by = o.p.y - 6; o.w = 60; });
     items.forEach(o => {
-      const c = RING[o.t.data], g = el("g", { class: "mk", tabindex: 0, style: `--c:${c}` }, svg);
+      const c = RING[o.t.data], g = el("g", { class: "mk" + (o.rank <= 3 ? " top" : ""), tabindex: 0, style: `--c:${c}` }, svg);
       el("circle", { class: "halo", cx: o.p.x, cy: o.p.y, r: 11, fill: c, opacity: .45, filter: "url(#glow)" }, g);
       el("path", { d: sp(9), fill: "#FFFFFF", stroke: c, "stroke-width": 1.4, transform: `translate(${o.p.x},${o.p.y})` }, g);
       const tx = o.bx, txt = { "text-anchor": "start", stroke: "#050A11", "stroke-width": 3.5, "stroke-opacity": .85, "paint-order": "stroke" };
@@ -479,16 +495,16 @@
     rows.sort((a, b) => dir * (a[S.set][key] - b[S.set][key]));
     const best = {}; cols.forEach(c => { const v = all.map(t => t[S.set][c.k]); best[c.k] = c.low ? Math.min(...v) : Math.max(...v); });
 
-    $("main").innerHTML = `<thead><tr><th class="c">Rank</th><th class="l">Method</th><th class="l">Training data</th><th class="l">Source</th><th class="l">Evaluated</th>` +
-      cols.map(c => `<th class="s${key === c.k ? " act" : ""}" data-k="${c.k}">${c.l}${key === c.k ? (dir < 0 ? " ▾" : " ▴") : ""}</th>`).join("") +
+    $("main").innerHTML = `<thead><tr><th class="c">Rank</th><th class="l">Method</th><th class="l opt">Training data</th><th class="l opt">Source</th><th class="l opt">Evaluated</th>` +
+      cols.map(c => `<th class="s${key === c.k ? " act" : ""}${c.main || c.k === "cldice" || c.k === "animal" ? "" : " opt"}" data-k="${c.k}">${c.l}${key === c.k ? (dir < 0 ? " ▾" : " ▴") : ""}</th>`).join("") +
       `</tr></thead><tbody>` + (rows.map(t => {
         const r = t[S.set], i = rank.get(t.name);
         return `<tr data-name="${t.name}"><td class="rank c">${i < 3 ? medal(i) : i + 1}</td>
           <td class="name l"><b>${t.name}</b>${t.status === "pending" ? '<span class="pend">Pending verification</span>' : ""}</td>
-          <td class="l"><span class="tag ${t.data}">${TAG[t.data]}</span></td>
-          <td class="l src">${t.source || ""}</td>
-          <td class="l">${dot(t.date)}</td>` +
-          cols.map(c => `<td class="${key === c.k ? "sortcol " : ""}${r[c.k] === best[c.k] ? "best" : ""}">${fmt(r[c.k], c)}</td>`).join("") + `</tr>`;
+          <td class="l opt"><span class="tag ${t.data}">${TAG[t.data]}</span></td>
+          <td class="l src opt">${t.source || ""}</td>
+          <td class="l opt">${dot(t.date)}</td>` +
+          cols.map(c => `<td class="${key === c.k ? "sortcol " : ""}${r[c.k] === best[c.k] ? "best " : ""}${c.main || c.k === "cldice" || c.k === "animal" ? "" : "opt"}">${fmt(r[c.k], c)}</td>`).join("") + `</tr>`;
       }).join("") || `<tr><td class="l" colspan="10">No methods in this group.</td></tr>`) + `</tbody>`;
     $("main").querySelectorAll("th.s").forEach(th => th.onclick = () => {
       const k = th.dataset.k, c = cols.find(x => x.k === k);
@@ -509,6 +525,7 @@
   })();
 
   render();
+  matchMedia("(max-width: 720px)").addEventListener("change", render);
 
   const links = [...document.querySelectorAll(".toc a")];
   function spy() {

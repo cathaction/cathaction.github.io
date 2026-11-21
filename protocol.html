@@ -30,10 +30,17 @@
   .links a { color: var(--ink); font-size: 14px; font-weight: 500; margin-left: 28px; padding: 4px 0; }
   .links a:hover { text-decoration: none; color: var(--blue); }
   .links a.cur { border-bottom: 1.5px solid var(--ink); }
+  .links a.submit { background: var(--ink); color: #fff; padding: 7px 16px; border-radius: 999px; }
+  .links a.submit:hover { background: var(--blue); color: #fff; }
 
   .wrap { max-width: 1072px; margin: 0 auto; padding: 0 16px; }
   .head { padding-top: 56px; }
   .back { font-size: 14px; font-weight: 500; }
+  .toprow { display: flex; justify-content: space-between; align-items: center; }
+  .lang { display: inline-flex; padding: 3px; border-radius: 10px; background: #fff; border: 1px solid var(--line); }
+  .lang button { font: inherit; font-size: 13px; font-weight: 500; border: 0; background: transparent; color: var(--ink); padding: 5px 14px; border-radius: 8px; cursor: pointer; }
+  .lang button.on { background: var(--blue-bg); color: var(--blue); font-weight: 600; }
+  [hidden] { display: none !important; }
   h1 { margin: 20px 0 6px; font-size: 36px; line-height: 1.15; font-weight: 700; letter-spacing: -.01em;
        background: linear-gradient(120deg, #202124 0%, #1A73E8 58%, #8430CE 100%); -webkit-background-clip: text; background-clip: text; color: transparent; display: inline-block; }
   .note { margin: 0; font-size: 13px; }
@@ -77,18 +84,25 @@
       <a href="./#submission">Submission</a>
       <a href="https://airvlab.github.io/cathaction/">Dataset</a>
       <a href="https://github.com/airvlab/cathaction">Code</a>
+      <a class="submit keep" href="https://github.com/cathaction/cathaction.github.io/issues/new?template=submission.yml">Submit</a>
     </div>
   </div>
 </nav>
 
 <div class="wrap head">
-  <a class="back" href="./">&larr; Leaderboard</a><br>
+  <div class="toprow"><a class="back" href="./">&larr; Leaderboard</a><div class="lang"><button data-l="en" class="on">English</button><button data-l="zh">中文</button></div></div>
+<div lang="en">
   <h1>CATHACTION Evaluation Protocol</h1>
   <p class="note">Effective 2026/10/07.</p>
 </div>
+<div lang="zh" hidden>
+  <h1>CATHACTION 评测协议</h1>
+  <p class="note">自 2026/10/07 起生效。中英文版本如有不一致，以英文版为准。</p>
+</div>
+</div>
 
 <div class="wrap cols">
-  <aside class="toc">
+  <aside class="toc" lang="en">
     <p>On this page</p>
     <a href="#overview">Overview</a>
     <a href="#submit">What to Submit for Evaluation</a>
@@ -98,8 +112,18 @@
     <a class="sub" href="#review">Eligibility and Review</a>
     <a href="#updates">Protocol Updates</a>
   </aside>
+  <aside class="toc" lang="zh" hidden>
+    <p>本页目录</p>
+    <a href="#zh-overview">概述</a>
+    <a href="#zh-submit">提交内容</a>
+    <a href="#zh-publication">上榜细则</a>
+    <a class="sub" href="#zh-evaluation">官方容器评测</a>
+    <a class="sub" href="#zh-audit">训练数据核查</a>
+    <a class="sub" href="#zh-review">资格与审查</a>
+    <a href="#zh-updates">协议更新</a>
+  </aside>
 
-  <main>
+  <main lang="en">
     <div class="sec" id="overview">
       <h2>Overview</h2>
       <div class="callout"><b>Leaderboard Governance.</b> The CATHACTION organisers maintain this leaderboard across all CATHACTION tracks and challenge editions. Test labels are never released, and every score on the leaderboard is computed by the organisers.</div>
@@ -108,7 +132,7 @@
         <li>Editions: MICCAI 2026 Challenge, CATHACTION-Seg.</li>
         <li>Entries from every edition and from open submissions share one leaderboard; the source of each entry is shown.</li>
       </ul>
-      <p>An entry is listed only after the following requirements are met:</p>
+      <p>A submission may first appear on the leaderboard as &ldquo;Pending verification&rdquo;. It becomes a verified entry only after the following requirements are met:</p>
       <ol class="steps">
         <li>The submitted Docker image is run by the organisers on the human test set and the animal and phantom test set.</li>
         <li>All training data is declared, including external and private data.</li>
@@ -124,6 +148,7 @@
         <li>Labels: 0 background, 1 catheter, 2 guidewire.</li>
         <li>Team name and a short method description.</li>
         <li>A complete list of training data.</li>
+        <li>Submit through the <a href="https://github.com/cathaction/cathaction.github.io/issues/new?template=submission.yml">submission form</a>.</li>
       </ul>
     </div>
 
@@ -148,6 +173,7 @@
       <h3 id="review">Eligibility and Review</h3>
       <ul class="dots">
         <li>Undeclared training data or use of test labels leads to removal from the leaderboard.</li>
+        <li>Entries still under evaluation or audit are marked &ldquo;Pending verification&rdquo;.</li>
         <li>Each entry shows its evaluation date; new entries are announced in News.</li>
         <li>Teams may ask for their entry to be updated or withdrawn.</li>
       </ul>
@@ -158,14 +184,85 @@
       <p>The organisers may revise this protocol. Changes are dated on this page and announced in News.</p>
     </div>
   </main>
+  <main lang="zh" hidden>
+    <div class="sec" id="zh-overview">
+      <h2>概述</h2>
+      <div class="callout"><b>排行榜管理。</b>CATHACTION 组委会维护本排行榜，覆盖 CATHACTION 的全部赛道和历届挑战赛。测试标签不对外公开，榜上所有分数均由组委会计算。</div>
+      <ul class="dots">
+        <li>赛道：CATHACTION-Seg（导管与导丝分割）；CATHACTION-Collision、CATHACTION-Action 即将推出。</li>
+        <li>期次：MICCAI 2026 挑战赛，CATHACTION-Seg。</li>
+        <li>各期挑战赛和开放提交的成绩共用一张榜，每条成绩标明来源。</li>
+      </ul>
+      <p>新提交可先以&ldquo;待核验&rdquo;（Pending verification）状态上榜，满足以下要求后转为正式成绩：</p>
+      <ol class="steps">
+        <li>提交的 Docker 镜像由组委会在人体测试集和动物、体模测试集上运行。</li>
+        <li>完整声明全部训练数据，包括外部数据和私有数据。</li>
+        <li>通过训练数据核查。</li>
+      </ol>
+    </div>
+
+    <div class="sec" id="zh-submit">
+      <h2>提交内容</h2>
+      <ul class="dots">
+        <li>可离线在单张 GPU 上运行的 Docker 镜像。</li>
+        <li>输入 <code>/input/image.nii.gz</code>（二维 X 光帧序列），输出同尺寸的 <code>/output/segmentation.nii.gz</code>。</li>
+        <li>标签：0 背景，1 导管，2 导丝。</li>
+        <li>队名和方法简介。</li>
+        <li>完整的训练数据清单。</li>
+        <li>通过<a href="https://github.com/cathaction/cathaction.github.io/issues/new?template=submission.yml">提交表单</a>提交。</li>
+      </ul>
+    </div>
+
+    <div class="sec" id="zh-publication">
+      <h2>上榜细则</h2>
+
+      <h3 id="zh-evaluation">官方容器评测：CATHACTION-Seg</h3>
+      <ul class="dots">
+        <li>人体测试集：11,723 帧，241 个序列，4 家医院（CLY、DHW、HTM、HXS）。</li>
+        <li>动物与体模测试集：4,691 帧（动物 1,006，体模 3,685）。</li>
+        <li>排名指标：case-macro Dice；同时报告 clDice、precision、recall、HD95 和空预测率。</li>
+        <li>所有提交使用同一套评分代码。</li>
+      </ul>
+
+      <h3 id="zh-audit">训练数据核查</h3>
+      <ul class="dots">
+        <li>核对所声明的训练数据与提交的镜像是否一致。</li>
+        <li>比较模型在公开训练数据和测试集上的表现，检查是否使用了测试标签。</li>
+        <li>榜上标明训练数据类别：用了人体数据、只用动物和体模、或未声明。</li>
+      </ul>
+
+      <h3 id="zh-review">资格与审查</h3>
+      <ul class="dots">
+        <li>未声明训练数据或使用测试标签的成绩将被撤下。</li>
+        <li>仍在评测或核查中的成绩标为&ldquo;待核验&rdquo;。</li>
+        <li>每条成绩标明评测日期，新成绩在 News 中公告。</li>
+        <li>参赛队可申请更新或撤回其成绩。</li>
+      </ul>
+    </div>
+
+    <div class="sec" id="zh-updates">
+      <h2>协议更新</h2>
+      <p>组委会可修订本协议，修订内容在本页注明日期，并在 News 中公告。</p>
+    </div>
+  </main>
 </div>
 
 <footer>CATHACTION benchmark for endovascular intervention.</footer>
 
 <script>
-  const links = [...document.querySelectorAll(".toc a")], secs = links.map(a => document.querySelector(a.getAttribute("href")));
+  let links = [], secs = [];
+  function setLang(l) {
+    document.querySelectorAll("[lang=en],[lang=zh]").forEach(e => { if (e !== document.documentElement) e.hidden = e.getAttribute("lang") !== l; });
+    document.querySelectorAll(".lang button").forEach(b => b.classList.toggle("on", b.dataset.l === l));
+    document.documentElement.lang = l === "zh" ? "zh-CN" : "en";
+    const toc = document.querySelector(`.toc[lang=${l}]`);
+    links = [...toc.querySelectorAll("a")]; secs = links.map(a => document.querySelector(a.getAttribute("href")));
+    const u = new URL(location); u.searchParams.set("lang", l); history.replaceState(null, "", u); spy();
+  }
   function spy() { let i = 0; secs.forEach((s, j) => { if (s.getBoundingClientRect().top < 160) i = j; }); links.forEach((a, j) => a.classList.toggle("on", j === i)); }
-  addEventListener("scroll", spy, { passive: true }); spy();
+  document.querySelectorAll(".lang button").forEach(b => b.onclick = () => setLang(b.dataset.l));
+  addEventListener("scroll", spy, { passive: true });
+  setLang(new URLSearchParams(location.search).get("lang") === "zh" ? "zh" : "en");
 </script>
 </body>
 </html>

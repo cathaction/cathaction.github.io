@@ -1,5 +1,6 @@
 // CATHACTION 2026 Task 1 leaderboard data.
 // To add a submission: append one entry to `teams`, fill `human` (and `ap` if evaluated), bump `updated`.
+// Set status: "pending" while evaluation or the training data audit is still open.
 window.LEADERBOARD = {
   updated: "2026-10-07",
   news: [

@@ -1,0 +1,5 @@
+blank_issues_enabled: true
+contact_links:
+  - name: CATHACTION evaluation protocol
+    url: https://cathaction.github.io/protocol.html
+    about: Rules for submission, evaluation and publication.

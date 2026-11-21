@@ -36,6 +36,8 @@
   .bar .links a { color: var(--ink); font-size: 14px; font-weight: 500; margin-left: 28px; padding: 4px 0; }
   .bar .links a:hover { text-decoration: none; color: var(--blue-2); }
   .bar .links a.cur { border-bottom: 1.5px solid var(--ink); }
+  .bar .links a.submit { background: var(--ink); color: #fff; padding: 7px 16px; border-radius: 999px; }
+  .bar .links a.submit:hover { background: var(--blue); color: #fff; }
 
   /* layout */
   .page { max-width: 1240px; margin: 0 auto; padding: 0 16px; display: grid; grid-template-columns: 130px minmax(0, 1000px); gap: 46px; justify-content: center; }
@@ -107,6 +109,7 @@
   td.name { font-family: var(--sans); font-size: 13px; }
   td.name b { font-weight: 600; }
   td.src { font-family: var(--sans); font-size: 12.5px; }
+  .pend { margin-left: 8px; font-size: 11px; font-weight: 500; padding: 2px 7px; border-radius: 4px; background: rgba(32,34,36,.07); color: var(--ink); }
   td.who { font-family: var(--sans); font-size: 13px; }
   td.sortcol { background: rgba(26,115,232,.06); font-weight: 700; }
   td.best { color: var(--blue-2); font-weight: 700; }
@@ -184,6 +187,7 @@
       <a href="#submission">Submission</a>
       <a href="https://airvlab.github.io/cathaction/">Dataset</a>
       <a href="https://github.com/airvlab/cathaction">Code</a>
+      <a class="submit keep" href="https://github.com/cathaction/cathaction.github.io/issues/new?template=submission.yml">Submit</a>
     </div>
   </div>
 </nav>
@@ -272,6 +276,7 @@
         <li>Input: <code>/input/image.nii.gz</code></li>
         <li>Output: <code>/output/segmentation.nii.gz</code> (0 background, 1 catheter, 2 guidewire)</li>
         <li>Method description and full list of training data</li>
+        <li>Submit through the <a href="https://github.com/cathaction/cathaction.github.io/issues/new?template=submission.yml">submission form</a>; entries are listed after evaluation and audit (<a href="protocol.html">protocol</a>)</li>
         <li>Dataset: <a href="https://airvlab.github.io/cathaction/">CATHACTION</a>, <a href="https://arxiv.org/abs/2408.13126">arXiv:2408.13126</a></li>
       </ul>
     </section>
@@ -478,7 +483,7 @@
       `</tr></thead><tbody>` + (rows.map(t => {
         const r = t[S.set], i = rank.get(t.name);
         return `<tr data-name="${t.name}"><td class="rank c">${i < 3 ? medal(i) : i + 1}</td>
-          <td class="name l"><b>${t.name}</b></td>
+          <td class="name l"><b>${t.name}</b>${t.status === "pending" ? '<span class="pend">Pending verification</span>' : ""}</td>
           <td class="l"><span class="tag ${t.data}">${TAG[t.data]}</span></td>
           <td class="l src">${t.source || ""}</td>
           <td class="l">${dot(t.date)}</td>` +

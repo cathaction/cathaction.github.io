@@ -1,0 +1,65 @@
+name: Leaderboard submission
+description: Submit a method to the CATHACTION leaderboard
+title: "[Submission] <team name>"
+labels: ["submission"]
+body:
+  - type: dropdown
+    id: track
+    attributes:
+      label: Track
+      options:
+        - CATHACTION-Seg
+    validations:
+      required: true
+  - type: input
+    id: team
+    attributes:
+      label: Team name
+    validations:
+      required: true
+  - type: textarea
+    id: method
+    attributes:
+      label: Method description
+      description: A few sentences; paper or report link if available.
+    validations:
+      required: true
+  - type: input
+    id: image
+    attributes:
+      label: Docker image download link
+      description: Input /input/image.nii.gz, output /output/segmentation.nii.gz, labels 0 background, 1 catheter, 2 guidewire. Runs offline on one GPU.
+    validations:
+      required: true
+  - type: dropdown
+    id: datacat
+    attributes:
+      label: Training data category
+      options:
+        - Human, animal and phantom
+        - Animal and phantom only
+        - Other (list below)
+    validations:
+      required: true
+  - type: textarea
+    id: data
+    attributes:
+      label: Full list of training data
+      description: Every dataset used, including external and private data, with the number of frames.
+    validations:
+      required: true
+  - type: input
+    id: contact
+    attributes:
+      label: Contact
+    validations:
+      required: true
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: Agreement
+      options:
+        - label: I have read the CATHACTION evaluation protocol (https://cathaction.github.io/protocol.html).
+          required: true
+        - label: The training data list above is complete.
+          required: true

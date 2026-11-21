@@ -351,7 +351,8 @@
 
   function drawCover() {
     const svg = $("cover"); svg.innerHTML = "";
-    svg.setAttribute("viewBox", matchMedia("(max-width: 720px)").matches ? "80 140 840 450" : "0 0 1000 600");
+    const narrow = matchMedia("(max-width: 720px)").matches;
+    svg.setAttribute("viewBox", narrow ? "80 140 840 450" : "0 0 1000 600");
     const defs = el("defs", {}, svg);
     const bg = el("radialGradient", { id: "bg", cx: "50%", cy: "60%", r: "75%" }, defs);
     el("stop", { offset: "0", "stop-color": "#10233A" }, bg); el("stop", { offset: "1", "stop-color": "#050A11" }, bg);
@@ -432,7 +433,7 @@
       el("image", { href, x, y, width: w, height: h, opacity: op, mask: `url(#${id})`, filter: "url(#dofMid)", preserveAspectRatio: "xMidYMid meet" }, svg);
     };
     photo("mTeam", "assets/surgeons_cut.webp", 360, 18, 360, 240, .82);
-    photo("mRobot", "assets/robot.webp", 760, 0, 270, 190, .7);
+    if (!narrow) photo("mRobot", "assets/robot.webp", 760, 0, 270, 190, .7);   // the phone crop (y from 140) would leave only a sliver of it
 
     const hero = el("g", { fill: "none", "stroke-linecap": "round", "stroke-linejoin": "round" }, svg);
     el("path", { d: hd, stroke: "#8D96A3", "stroke-width": 12, opacity: .9 }, hero);
@@ -455,13 +456,17 @@
       .map((t, i) => ({ t, v: t[S.set][key], rank: i + 1, p: P(t[S.set][key]), side: 1 }));
     // labels sit right next to their star (RoboDojo style); overlaps are allowed
     items.forEach(o => { o.side = 1; o.bx = o.p.x + 13; o.by = o.p.y - 6; o.w = 60; });
+    // phone: stars sit too close for side labels, so the top three get a tidy column in the empty lower right, joined by leader lines
+    if (narrow) items.filter(o => o.rank <= 3).forEach((o, k) => { o.bx = 690; o.by = 400 + k * 62; o.lead = true; });
     items.forEach(o => {
       const c = RING[o.t.data], g = el("g", { class: "mk" + (o.rank <= 3 ? " top" : ""), tabindex: 0, style: `--c:${c}` }, svg);
       el("circle", { class: "halo", cx: o.p.x, cy: o.p.y, r: 11, fill: c, opacity: .45, filter: "url(#glow)" }, g);
       el("path", { d: sp(9), fill: "#FFFFFF", stroke: c, "stroke-width": 1.4, transform: `translate(${o.p.x},${o.p.y})` }, g);
+      if (o.lead) el("path", { d: `M${o.p.x},${o.p.y} L${o.bx - 10},${o.by + 18}`, stroke: c, "stroke-width": 1.5, opacity: .7, fill: "none" }, g);
       const tx = o.bx, txt = { "text-anchor": "start", stroke: "#050A11", "stroke-width": 3.5, "stroke-opacity": .85, "paint-order": "stroke" };
-      el("text", { class: "nm", x: tx, y: o.by + 12, "font-size": 13, "font-weight": 600, fill: "#FFFFFF", ...txt }, g).textContent = o.t.abbr || o.t.name;
-      el("text", { class: "sc", x: tx, y: o.by + 26, "font-size": 11, "font-weight": 500, fill: "#E8EEF9", ...txt }, g).textContent = o.v.toFixed(4);
+      const dy = o.lead ? [24, 47] : [12, 26];
+      el("text", { class: "nm", x: tx, y: o.by + dy[0], "font-size": 13, "font-weight": 600, fill: "#FFFFFF", ...txt }, g).textContent = o.t.abbr || o.t.name;
+      el("text", { class: "sc", x: tx, y: o.by + dy[1], "font-size": 11, "font-weight": 500, fill: "#E8EEF9", ...txt }, g).textContent = o.v.toFixed(4);
       el("circle", { cx: o.p.x, cy: o.p.y, r: 16, fill: "transparent" }, g);
       const show = () => {
         const m = svg.getScreenCTM(), r = box.getBoundingClientRect();

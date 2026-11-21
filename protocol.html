@@ -111,6 +111,7 @@
     <a class="sub" href="#audit">Training Data Audit</a>
     <a class="sub" href="#review">Eligibility and Review</a>
     <a href="#updates">Protocol Updates</a>
+    <a href="#contact">Contact</a>
   </aside>
   <aside class="toc" lang="zh" hidden>
     <p>本页目录</p>
@@ -121,6 +122,7 @@
     <a class="sub" href="#zh-audit">训练数据核查</a>
     <a class="sub" href="#zh-review">资格与审查</a>
     <a href="#zh-updates">协议更新</a>
+    <a href="#zh-contact">联系方式</a>
   </aside>
 
   <main lang="en">
@@ -148,7 +150,7 @@
         <li>Labels: 0 background, 1 catheter, 2 guidewire.</li>
         <li>Team name and a short method description.</li>
         <li>A complete list of training data.</li>
-        <li>Submit through the <a href="https://github.com/cathaction/cathaction.github.io/issues/new?template=submission.yml">submission form</a>.</li>
+        <li>Submit through the <a href="https://github.com/cathaction/cathaction.github.io/issues/new?template=submission.yml">submission form</a>, or by email (see <a href="#contact">Contact</a>).</li>
       </ul>
     </div>
 
@@ -183,6 +185,14 @@
       <h2>Protocol Updates</h2>
       <p>The organisers may revise this protocol. Changes are dated on this page and announced in News.</p>
     </div>
+    <div class="sec" id="contact">
+      <h2>Contact</h2>
+      <ul class="dots">
+        <li>Leaderboard manager: Baoru Huang, <a href="mailto:baoru.huang@liverpool.ac.uk">baoru.huang@liverpool.ac.uk</a></li>
+        <li>Lead: Qi Shao, <a href="mailto:shaoqi@liverpool.ac.uk">shaoqi@liverpool.ac.uk</a></li>
+        <li>Submissions may also be sent to these addresses instead of the public form.</li>
+      </ul>
+    </div>
   </main>
   <main lang="zh" hidden>
     <div class="sec" id="zh-overview">
@@ -209,7 +219,7 @@
         <li>标签：0 背景，1 导管，2 导丝。</li>
         <li>队名和方法简介。</li>
         <li>完整的训练数据清单。</li>
-        <li>通过<a href="https://github.com/cathaction/cathaction.github.io/issues/new?template=submission.yml">提交表单</a>提交。</li>
+        <li>通过<a href="https://github.com/cathaction/cathaction.github.io/issues/new?template=submission.yml">提交表单</a>提交，或发送邮件（见<a href="#zh-contact">联系方式</a>）。</li>
       </ul>
     </div>
 
@@ -244,6 +254,14 @@
       <h2>协议更新</h2>
       <p>组委会可修订本协议，修订内容在本页注明日期，并在 News 中公告。</p>
     </div>
+    <div class="sec" id="zh-contact">
+      <h2>联系方式</h2>
+      <ul class="dots">
+        <li>排行榜管理：Baoru Huang，<a href="mailto:baoru.huang@liverpool.ac.uk">baoru.huang@liverpool.ac.uk</a></li>
+        <li>负责人：Qi Shao，<a href="mailto:shaoqi@liverpool.ac.uk">shaoqi@liverpool.ac.uk</a></li>
+        <li>不便公开提交的，也可将提交内容发送至以上邮箱。</li>
+      </ul>
+    </div>
   </main>
 </div>
 
@@ -259,7 +277,7 @@
     links = [...toc.querySelectorAll("a")]; secs = links.map(a => document.querySelector(a.getAttribute("href")));
     const u = new URL(location); u.searchParams.set("lang", l); history.replaceState(null, "", u); spy();
   }
-  function spy() { let i = 0; secs.forEach((s, j) => { if (s.getBoundingClientRect().top < 160) i = j; }); links.forEach((a, j) => a.classList.toggle("on", j === i)); }
+  function spy() { let i = 0; secs.forEach((s, j) => { if (s.getBoundingClientRect().top < 160) i = j; }); if (innerHeight + scrollY >= document.documentElement.scrollHeight - 4) i = secs.length - 1; links.forEach((a, j) => a.classList.toggle("on", j === i)); }
   document.querySelectorAll(".lang button").forEach(b => b.onclick = () => setLang(b.dataset.l));
   addEventListener("scroll", spy, { passive: true });
   setLang(new URLSearchParams(location.search).get("lang") === "zh" ? "zh" : "en");

@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>CATHACTION 2026 Leaderboard</title>
+<title>CATHACTION Leaderboard</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:opsz,wght@6..144,400..700&display=swap" rel="stylesheet">
@@ -74,6 +74,9 @@
   .pills button { font: inherit; font-size: 13px; font-weight: 600; letter-spacing: .13px; height: 32px; padding: 0 14px; border-radius: 999px;
                   background: transparent; color: var(--ink); border: 1px solid transparent; cursor: pointer; }
   .pills button:hover { background: rgba(32,34,36,.04); }
+  .pills button.soon { cursor: default; color: rgba(32,34,36,.45); }
+  .pills button.soon i { font-style: normal; font-size: 10.5px; font-weight: 600; margin-left: 6px; padding: 1px 6px; border-radius: 999px; background: rgba(32,34,36,.06); color: var(--ink); }
+  .pills button.soon:hover { background: transparent; }
   .pills button.on { background: var(--blue-bg); color: var(--blue); border-color: rgba(66,133,244,.24); }
   h2.board { margin: 0; font-size: 20px; letter-spacing: -.01em; }
   .cap { margin: 2px 0 14px; font-size: 13px; }
@@ -103,6 +106,7 @@
   td.rank { font-weight: 700; width: 56px; }
   td.name { font-family: var(--sans); font-size: 13px; }
   td.name b { font-weight: 600; }
+  td.src { font-family: var(--sans); font-size: 12.5px; }
   td.who { font-family: var(--sans); font-size: 13px; }
   td.sortcol { background: rgba(26,115,232,.06); font-weight: 700; }
   td.best { color: var(--blue-2); font-weight: 700; }
@@ -176,6 +180,7 @@
     <div class="links">
       <a href="#leaderboard" class="keep cur">Leaderboard</a>
       <a href="#evaluation">Evaluation</a>
+      <a href="protocol.html">Protocol</a>
       <a href="#submission">Submission</a>
       <a href="https://airvlab.github.io/cathaction/">Dataset</a>
       <a href="https://github.com/airvlab/cathaction">Code</a>
@@ -196,7 +201,7 @@
   <main>
     <div class="cover" id="coverBox">
       <svg id="cover" viewBox="0 0 1000 600" role="img" aria-label="Real catheter and guidewire centerlines from CATHACTION; methods placed by score along a rising guidewire"></svg>
-      <div class="cv-title"><span class="cv-h">CATHACTION</span><span class="cv-k">MICCAI 2026, Task 1 Segmentation</span></div>
+      <div class="cv-title"><span class="cv-h">CATHACTION</span><span class="cv-k">Catheter and Guidewire Segmentation</span></div>
       <div class="cv-set" id="cvSet"></div>
       <div class="cv-legend">
         <span><i style="--c:#C58AF9"></i>Human data</span><span><i style="--c:#8AB4F8"></i>Animal, phantom</span><span><i style="--c:#BDC1C6"></i>Not declared</span>
@@ -207,9 +212,9 @@
     <section class="protocol">
       <div>
         <div class="kicker">Protocol<time id="protoDate"></time></div>
-        <h3>Container Evaluation and Training Data Audit</h3>
+        <h3>CATHACTION Evaluation Protocol</h3>
       </div>
-      <a class="more" href="#evaluation">Read the protocol &rarr;</a>
+      <a class="more" href="protocol.html">Read the protocol &rarr;</a>
     </section>
 
     <section class="news">
@@ -219,15 +224,20 @@
 
     <section id="leaderboard">
       <h1>Leaderboard</h1>
-      <div class="pills" id="pills">
-        <button data-v="human" class="on">Human test set</button>
-        <button data-v="ap">Animal and phantom</button>
+      <div class="pills" id="tracks">
+        <button class="on">CATHACTION-Seg</button>
+        <button class="soon" disabled>CATHACTION-Collision<i>Soon</i></button>
+        <button class="soon" disabled>CATHACTION-Action<i>Soon</i></button>
       </div>
 
 
       <div class="tcard">
         <div class="thead"><h3 id="tblTitle"></h3><time id="updated"></time></div>
         <div class="ctrl">
+          <div class="g" id="pills"><span class="k">Test set</span>
+            <button data-v="human" class="on">Human</button>
+            <button data-v="ap">Animal and phantom</button>
+          </div>
           <div class="g"><span class="k">Training data</span>
             <button data-f="all" class="on">All</button>
             <button data-f="human">Human</button>
@@ -270,7 +280,7 @@
 
 <footer><span id="foot"></span><br><span class="credit">Cover photos: surgical team by Airman 1st Class Zeeshan Naeem (U.S. Air Force) and da Vinci surgical system by Marcy Sanchez (DVIDS), both public domain via Wikimedia Commons.</span></footer>
 
-<script src="data.js?v=2"></script>
+<script src="data.js?v=3"></script>
 <script>
 (function () {
   const D = window.LEADERBOARD, $ = id => document.getElementById(id);
@@ -295,7 +305,7 @@
   $("protoDate").textContent = dot(D.updated);
   $("news").innerHTML = D.news.map(n => `<li><time>${dot(n.date)}</time><span>${n.html}</span></li>`).join("");
   $("updated").textContent = "Updated " + dot(D.updated);
-  $("foot").textContent = "CATHACTION 2026, MICCAI Challenge Task 1: catheter and guidewire segmentation. Last updated " + dot(D.updated) + ".";
+  $("foot").textContent = "CATHACTION benchmark for endovascular intervention. Last updated " + dot(D.updated) + ".";
 
   function setSet(v) {
     S.set = v; S.sort = null;
@@ -304,8 +314,8 @@
   }
   document.querySelectorAll("#pills button").forEach(b => b.onclick = () => setSet(b.dataset.v));
   document.querySelectorAll(".toc a[data-set]").forEach(a => a.addEventListener("click", () => setSet(a.dataset.set)));
-  document.querySelectorAll(".ctrl button").forEach(b => b.onclick = () => {
-    document.querySelectorAll(".ctrl button").forEach(x => x.classList.toggle("on", x === b));
+  document.querySelectorAll(".ctrl button[data-f]").forEach(b => b.onclick = () => {
+    document.querySelectorAll(".ctrl button[data-f]").forEach(x => x.classList.toggle("on", x === b));
     S.filter = b.dataset.f; render();
   });
 
@@ -456,20 +466,21 @@
     const cols = COLS[S.set], main = cols.find(c => c.main), all = D.teams.filter(t => t[S.set]);
     const rank = new Map([...all].sort((a, b) => b[S.set][main.k] - a[S.set][main.k]).map((t, i) => [t.name, i]));
     const human = S.set === "human";
-    $("tblTitle").innerHTML = human ? "Human Test Set Leaderboard" : "Animal and Phantom Leaderboard";
+    $("tblTitle").innerHTML = human ? "CATHACTION-Seg, Human Test Set" : "CATHACTION-Seg, Animal and Phantom Test Set";
 
     const rows = all.filter(t => S.filter === "all" || t.data === S.filter);
     const key = S.sort || main.k, dir = S.sort ? S.dir : -1;
     rows.sort((a, b) => dir * (a[S.set][key] - b[S.set][key]));
     const best = {}; cols.forEach(c => { const v = all.map(t => t[S.set][c.k]); best[c.k] = c.low ? Math.min(...v) : Math.max(...v); });
 
-    $("main").innerHTML = `<thead><tr><th class="c">Rank</th><th class="l">Method</th><th class="l">Training data</th><th class="l">Evaluated</th>` +
+    $("main").innerHTML = `<thead><tr><th class="c">Rank</th><th class="l">Method</th><th class="l">Training data</th><th class="l">Source</th><th class="l">Evaluated</th>` +
       cols.map(c => `<th class="s${key === c.k ? " act" : ""}" data-k="${c.k}">${c.l}${key === c.k ? (dir < 0 ? " ▾" : " ▴") : ""}</th>`).join("") +
       `</tr></thead><tbody>` + (rows.map(t => {
         const r = t[S.set], i = rank.get(t.name);
         return `<tr data-name="${t.name}"><td class="rank c">${i < 3 ? medal(i) : i + 1}</td>
           <td class="name l"><b>${t.name}</b></td>
           <td class="l"><span class="tag ${t.data}">${TAG[t.data]}</span></td>
+          <td class="l src">${t.source || ""}</td>
           <td class="l">${dot(t.date)}</td>` +
           cols.map(c => `<td class="${key === c.k ? "sortcol " : ""}${r[c.k] === best[c.k] ? "best" : ""}">${fmt(r[c.k], c)}</td>`).join("") + `</tr>`;
       }).join("") || `<tr><td class="l" colspan="10">No methods in this group.</td></tr>`) + `</tbody>`;

@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CATHACTION Protocol</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:opsz,wght@6..144,400..700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #202124; --blue: #1A73E8; --purple: #8430CE; --blue-bg: #E8F0FE;
+    --line: rgba(32,34,36,.12); --line-2: rgba(32,34,36,.08);
+    --sans: "Google Sans Flex", "Google Sans", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; scroll-padding-top: 110px; }
+  body { margin: 0; color: var(--ink); font-family: var(--sans); font-size: 16px; line-height: 1.65; background: #F8F9FA; -webkit-font-smoothing: antialiased; }
+  a { color: var(--blue); text-decoration: none; }
+  a:hover { text-decoration: underline; text-underline-offset: 3px; }
+  code { font-size: 14px; background: rgba(32,34,36,.05); padding: 1px 5px; border-radius: 4px; }
+
+  nav { position: sticky; top: 0; z-index: 10; padding: 32px 16px 0; }
+  .bar { max-width: 1040px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between;
+         padding: 8px 40px; background: rgba(255,255,255,.8); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+         border: 1px solid var(--line); border-radius: 9999px; box-shadow: 0 4px 14px rgba(32,34,36,.08); }
+  .brand { font-weight: 700; font-size: 18px; letter-spacing: -.01em; padding: 6px 0;
+           background: linear-gradient(120deg, #202124 0%, #1A73E8 58%, #8430CE 100%); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .brand:hover { text-decoration: none; }
+  .links a { color: var(--ink); font-size: 14px; font-weight: 500; margin-left: 28px; padding: 4px 0; }
+  .links a:hover { text-decoration: none; color: var(--blue); }
+  .links a.cur { border-bottom: 1.5px solid var(--ink); }
+
+  .wrap { max-width: 1072px; margin: 0 auto; padding: 0 16px; }
+  .head { padding-top: 56px; }
+  .back { font-size: 14px; font-weight: 500; }
+  h1 { margin: 20px 0 6px; font-size: 36px; line-height: 1.15; font-weight: 700; letter-spacing: -.01em;
+       background: linear-gradient(120deg, #202124 0%, #1A73E8 58%, #8430CE 100%); -webkit-background-clip: text; background-clip: text; color: transparent; display: inline-block; }
+  .note { margin: 0; font-size: 13px; }
+
+  .cols { display: grid; grid-template-columns: 200px minmax(0, 1fr); gap: 0; margin-top: 40px; padding-bottom: 96px; }
+  .toc { position: sticky; top: 120px; align-self: start; padding-right: 22px; border-right: 1px solid var(--line); }
+  .toc p { margin: 0 0 10px; font-size: 13px; font-weight: 600; }
+  .toc a { display: block; padding: 6px 0; font-size: 13px; color: var(--ink); line-height: 1.35; }
+  .toc a.sub { padding-left: 12px; border-left: 1px solid var(--line); margin-left: 2px; }
+  .toc a:hover { text-decoration: none; color: var(--blue); }
+  .toc a.on { color: var(--blue); font-weight: 600; }
+  main { min-width: 0; padding-left: 32px; }
+
+  h2 { margin: 0 0 16px; font-size: 26px; letter-spacing: -.01em; }
+  h3 { margin: 28px 0 10px; font-size: 18px; }
+  .sec { padding-bottom: 36px; }
+  .sec + .sec { padding-top: 8px; }
+  p { margin: 0 0 14px; font-size: 15.5px; }
+  .callout { background: #F1F6FE; border: 1px solid #D2E3FC; border-left: 3px solid var(--blue); border-radius: 8px; padding: 18px 20px; margin: 0 0 22px; font-size: 15px; }
+  .steps { list-style: none; counter-reset: s; margin: 16px 0 0; padding: 0; }
+  .steps li { counter-increment: s; position: relative; background: #fff; border: 1px solid var(--line-2); border-radius: 10px; padding: 16px 20px 16px 58px; margin-bottom: 10px; font-size: 15.5px; }
+  .steps li::before { content: counter(s); position: absolute; left: 20px; top: 17px; width: 24px; height: 24px; border-radius: 50%; background: var(--blue-bg); color: var(--blue); font-size: 12.5px; font-weight: 700; display: flex; align-items: center; justify-content: center; }
+  ul.dots { margin: 0 0 14px; padding-left: 20px; }
+  ul.dots li { margin: 6px 0; font-size: 15.5px; }
+  ul.dots li::marker { color: var(--blue); }
+
+  footer { max-width: 1040px; margin: 0 auto; padding: 28px 16px 48px; border-top: 1px solid var(--line-2); font-size: 13px; }
+
+  @media (max-width: 900px) { .cols { grid-template-columns: minmax(0, 1fr); } .toc { display: none; } main { padding-left: 0; } }
+  @media (max-width: 720px) { nav { padding: 12px 12px 0; } .bar { padding: 6px 20px; } .links a:not(.keep) { display: none; } h1 { font-size: 28px; } }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="bar">
+    <a class="brand" href="./">CATHACTION</a>
+    <div class="links">
+      <a href="./#leaderboard" class="keep">Leaderboard</a>
+      <a href="protocol.html" class="cur">Protocol</a>
+      <a href="./#submission">Submission</a>
+      <a href="https://airvlab.github.io/cathaction/">Dataset</a>
+      <a href="https://github.com/airvlab/cathaction">Code</a>
+    </div>
+  </div>
+</nav>
+
+<div class="wrap head">
+  <a class="back" href="./">&larr; Leaderboard</a><br>
+  <h1>CATHACTION Evaluation Protocol</h1>
+  <p class="note">Effective 2026/10/07.</p>
+</div>
+
+<div class="wrap cols">
+  <aside class="toc">
+    <p>On this page</p>
+    <a href="#overview">Overview</a>
+    <a href="#submit">What to Submit for Evaluation</a>
+    <a href="#publication">Leaderboard Publication Details</a>
+    <a class="sub" href="#evaluation">Official Container Evaluation</a>
+    <a class="sub" href="#audit">Training Data Audit</a>
+    <a class="sub" href="#review">Eligibility and Review</a>
+    <a href="#updates">Protocol Updates</a>
+  </aside>
+
+  <main>
+    <div class="sec" id="overview">
+      <h2>Overview</h2>
+      <div class="callout"><b>Leaderboard Governance.</b> The CATHACTION organisers maintain this leaderboard across all CATHACTION tracks and challenge editions. Test labels are never released, and every score on the leaderboard is computed by the organisers.</div>
+      <ul class="dots">
+        <li>Tracks: CATHACTION-Seg (catheter and guidewire segmentation); CATHACTION-Collision and CATHACTION-Action to follow.</li>
+        <li>Editions: MICCAI 2026 Challenge, CATHACTION-Seg.</li>
+        <li>Entries from every edition and from open submissions share one leaderboard; the source of each entry is shown.</li>
+      </ul>
+      <p>An entry is listed only after the following requirements are met:</p>
+      <ol class="steps">
+        <li>The submitted Docker image is run by the organisers on the human test set and the animal and phantom test set.</li>
+        <li>All training data is declared, including external and private data.</li>
+        <li>The training data audit is passed.</li>
+      </ol>
+    </div>
+
+    <div class="sec" id="submit">
+      <h2>What to Submit for Evaluation</h2>
+      <ul class="dots">
+        <li>A Docker image that runs offline on one GPU.</li>
+        <li>Input <code>/input/image.nii.gz</code>, a stack of 2D X-ray frames; output <code>/output/segmentation.nii.gz</code> of the same size.</li>
+        <li>Labels: 0 background, 1 catheter, 2 guidewire.</li>
+        <li>Team name and a short method description.</li>
+        <li>A complete list of training data.</li>
+      </ul>
+    </div>
+
+    <div class="sec" id="publication">
+      <h2>Leaderboard Publication Details</h2>
+
+      <h3 id="evaluation">Official Container Evaluation: CATHACTION-Seg</h3>
+      <ul class="dots">
+        <li>Human test set: 11,723 frames, 241 sequences, 4 hospitals (CLY, DHW, HTM, HXS).</li>
+        <li>Animal and phantom test set: 4,691 frames (animal 1,006, phantom 3,685).</li>
+        <li>Ranking metric: case-macro Dice. Also reported: clDice, precision, recall, HD95 and empty prediction rate.</li>
+        <li>The same scoring code is used for every submission.</li>
+      </ul>
+
+      <h3 id="audit">Training Data Audit</h3>
+      <ul class="dots">
+        <li>The declared training data is checked against the submitted image.</li>
+        <li>Performance on public training data and on the test set is compared to detect use of test labels.</li>
+        <li>The training data category is shown on the leaderboard: human, animal and phantom only, or not declared.</li>
+      </ul>
+
+      <h3 id="review">Eligibility and Review</h3>
+      <ul class="dots">
+        <li>Undeclared training data or use of test labels leads to removal from the leaderboard.</li>
+        <li>Each entry shows its evaluation date; new entries are announced in News.</li>
+        <li>Teams may ask for their entry to be updated or withdrawn.</li>
+      </ul>
+    </div>
+
+    <div class="sec" id="updates">
+      <h2>Protocol Updates</h2>
+      <p>The organisers may revise this protocol. Changes are dated on this page and announced in News.</p>
+    </div>
+  </main>
+</div>
+
+<footer>CATHACTION benchmark for endovascular intervention.</footer>
+
+<script>
+  const links = [...document.querySelectorAll(".toc a")], secs = links.map(a => document.querySelector(a.getAttribute("href")));
+  function spy() { let i = 0; secs.forEach((s, j) => { if (s.getBoundingClientRect().top < 160) i = j; }); links.forEach((a, j) => a.classList.toggle("on", j === i)); }
+  addEventListener("scroll", spy, { passive: true }); spy();
+</script>
+</body>
+</html>

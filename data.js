@@ -15,7 +15,7 @@ window.LEADERBOARD = {
   ],
   teams: [
     {
-      name: "GenMI-Star", short: "GS", abbr: "GenMI",
+      name: "GenMI-Star", short: "GS", abbr: "GenMI", source: "MICCAI 2026",
       method: "Segmentation network, TorchScript",
       data: "human",
       date: "2026-09-23",
@@ -24,7 +24,7 @@ window.LEADERBOARD = {
       ap: { all: 0.5606, animal: 0.6911, phantom: 0.5253, pooled: 0.5308, fg: 0.6141 }
     },
     {
-      name: "TEAMNAME_phase2", short: "TN", abbr: "TEAMNAME",
+      name: "TEAMNAME_phase2", short: "TN", abbr: "TEAMNAME", source: "MICCAI 2026",
       method: "nnU-Net v2 ResEnc-L 2D, path guard post-processing",
       data: "ap",
       date: "2026-10-07",
@@ -33,7 +33,7 @@ window.LEADERBOARD = {
       ap: { all: 0.5685, animal: 0.6866, phantom: 0.5363, pooled: 0.5581, fg: 0.6287 }
     },
     {
-      name: "LTSI-Rennes", short: "LR", abbr: "LTSI",
+      name: "LTSI-Rennes", short: "LR", abbr: "LTSI", source: "MICCAI 2026",
       method: "Segmentation network",
       data: "ap",
       date: "2026-09-20",
@@ -42,7 +42,7 @@ window.LEADERBOARD = {
       ap: { all: 0.5627, animal: 0.6838, phantom: 0.5297, pooled: 0.5474, fg: 0.6218 }
     },
     {
-      name: "InnerLogic (real)", short: "IR", abbr: "IL-real",
+      name: "InnerLogic (real)", short: "IR", abbr: "IL-real", source: "MICCAI 2026",
       method: "Segmentation network",
       data: "undeclared",
       date: "2026-09-20",
@@ -51,7 +51,7 @@ window.LEADERBOARD = {
       ap: { all: 0.2994, animal: 0.6398, phantom: 0.2076, pooled: 0.2772, fg: 0.4117 }
     },
     {
-      name: "InnerLogic (sim)", short: "IS", abbr: "IL-sim",
+      name: "InnerLogic (sim)", short: "IS", abbr: "IL-sim", source: "MICCAI 2026",
       method: "Segmentation network",
       data: "undeclared",
       date: "2026-09-20",

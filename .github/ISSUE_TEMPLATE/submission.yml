@@ -28,7 +28,7 @@ body:
     id: image
     attributes:
       label: Docker image download link
-      description: Input /input/image.nii.gz, output /output/segmentation.nii.gz, labels 0 background, 1 catheter, 2 guidewire. Runs offline on one GPU.
+      description: Google Drive or another link without download speed limits. Input /input/image.nii.gz, output /output/segmentation.nii.gz, labels 0 background, 1 catheter, 2 guidewire. Runs offline on one GPU.
     validations:
       required: true
   - type: dropdown
